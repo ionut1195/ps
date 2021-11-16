@@ -1,220 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "sort.c"
 #include <unistd.h>
-#include "operations.c"
-
-int	ft_atoi(const char *nptr)
-{
-	int	result;
-	int	sign;
-	int	itr;
-
-	sign = 1;
-	itr = 0;
-	result = 0;
-	while ((nptr[itr] >= 7 && nptr[itr] <= 13) || nptr[itr] == ' ')
-		itr++;
-	if (nptr[itr] == '-')
-		sign = -1;
-	if (nptr[itr] == '-' || nptr[itr] == '+')
-		itr++;
-	while (nptr[itr] >= '0' && nptr[itr] <= '9' && nptr[itr])
-	{
-		result = result * 10 + (nptr[itr] - '0');
-		nptr++;
-	}
-	return (sign * result);
-}
-
-void push(node **top, int x)
-{
-    node *nod;
-    nod = (node *)malloc(sizeof(node));
-    if (nod == NULL)
-        exit (0);
-    nod->data = x;
-    nod->next = *top;
-    *top = nod;
-}
-
-void display(node *head)
-{
-    node *curr;
-    curr = head;
-    if (curr != NULL)
-    {
-        while (curr != NULL)
-        {
-            printf("%d -> ",curr->data);
-            curr = curr->next;
-        }
-    }
-    else
-        printf("s is empty");
-}
-
-int get_size(node *head)
-{
-    int i;
-    node *curr;
-    curr = head;
-    i = 0;
-    while (curr != NULL)
-    {
-        i++;
-		if (curr->next == NULL)
-			return (i);
-        curr = curr->next;
-    }
-    return (i);
-}
-
-void swap_nodes(node **head)
-{
-    int size;
-    node *temp;
-	node *third;
-
-	if (*head && (*head)->next)
-	{
-		if ((*head)->next->next)
-			third = (*head)->next->next;
-		temp = *head;
-		*head = (*head)->next;
-		(*head)->next = temp;
-		if (third)
-			temp->next = third;
-		else
-			temp->next = NULL;	
-	}
-}
-
-node *get_last_node(node *head)
-{
-	if (head)
-	{
-		while (head->next)
-			head = head->next;
-	}
-	return (head);
-}
-
-void	rotate(node **head)
-{
-	node *first;
-
-	if (*head && (*head)->next)
-	{
-		first = (*head)->next;
-		(get_last_node(*head))->next = *head;
-		(*head)->next = NULL;
-		*head = first;
-	}
-}
-
-void	rotate_reverse(node **head)
-{
-	node *curr;
-	int value;
-
-	curr = *head;
-	while(curr->next->next != NULL)
-		curr = curr->next;
-	value = curr->next->data;
-	curr->next = NULL;
-	free(curr->next);
-	push(head,value);
-}
-
-int pop(node **pt)
-{	
-	node *next_node;
-	int i;
-
-	next_node = (*pt)->next;
-	i = (*pt)->data;
-	free(*pt);
-	*pt = next_node;
-	return(i);
-}
-
-void	push_to_other(node **source, node **target)
-{
-	if (*source == NULL)
-		return ;
-	push(target,pop(source));
-}
-
-void push_at_end(node **top, int x)
-{
-	node *nod;
-	node *last;
-
-	nod = (node *)malloc(sizeof(node));
-	if (nod == NULL)
-		exit (0);
-	nod->data = x;
-	nod->next = NULL;
-	if (*top == NULL)
-	{
-		push(top,x);
-		free(nod);
-	}
-	else
-	{
-		last = get_last_node(*top);
-		last->next = nod;
-	}
-}
-
-int get_max_val(node *top)
-{
-	int max;
-
-	if (!top)
-		return (-1);
-	max = top->data;
-	while (top)
-	{
-		if (top->data < max)
-			max = top->data;
-		top = top->next;
-	}
-	return (max);
-}
-
-int get_min_val(node *top)
-{
-	int min;
-
-	if (!top)
-		return (-1);
-	min = top->data;
-	while (top)
-	{
-		if (top->data < min)
-			min = top->data;
-		top = top->next;
-	}
-	return (min);
-}
-
-int get_last_data(node *top)
-{
-	node *curr;
-
-	if (top)
-		curr = top;
-	while (curr)
-	{
-		if (curr->next)
-			curr = curr->next;
-		else
-			break;
-	}
-	return (curr->data);
-}
+//#include "operations.c"
+#include "swap.h"
 
 void refill_a(t_stack *s, int *ops)
 {
@@ -257,53 +45,6 @@ void sort_3(t_stack *s, int *ops)
 		(*ops)++;
 	}
 }
-/*int get_index(int *arr, int i)
-{
-	int index;
-
-	index = 0;
-	if (!*arr)
-		return -1;
-	while (arr + index)
-	{
-		if (*(arr + index) == i)
-			return (index);
-		index++;
-	}
-}
-*/
-int get_index(node *n, int i)
-{
-	int index;
-
-	index = 0;
-	if (!n)
-		return -1;
-	while (n)
-	{
-		if (n->data == i)
-			return (index);
-		else
-			n = n->next;
-			index++;
-	}
-}
-
-int is_sorted(node *n)
-{
-	if (!n)
-		return -1;
-	if (n->next == NULL)
-		return (1);
-	while(n && n->next)
-	{
-		if (n->data < n->next->data)
-			n = n->next;
-		else
-			return (0);
-	}
-	return (1);
-}
 
 void sort_10(t_stack *s)
 {
@@ -337,55 +78,6 @@ void sort_10(t_stack *s)
 		sort_3(s, &ops);
 	refill_a(s, &ops);
 	printf("total operations -- %d\n", ops);
-}
-
-void next_under_pivot(node *n, int piv, int *first, int *last)
-{
-	int idx;
-
-	idx = 0;
-	while(n)
-	{
-		if (n->data < piv)
-			break ;
-		n = n->next;
-		(*first)++;
-		idx++;
-	}
-	if (!n)
-		*last = idx;
-	while (n)
-	{
-		if (n->data < piv)
-			*last = idx;
-		n = n->next;
-		idx++;
-	}
-
-}
-
-int decide_rotation(node *n, int piv, int size)
-{
-	int first;
-	int last;
-
-	first = 0;
-	last = 0;
-	next_under_pivot(n, piv, &first, &last);
-	if (first <= (size - last - 1))
-		return (1);// rotate
-	return (2);// reverse rotate
-}
-
-int less_than_pivot(node *n, int piv)
-{
-	while(n)
-	{
-		if (n->data < piv)
-			return (1);
-		n = n->next;
-	}
-	return (0);
 }
 
 void sort_last_chunk(t_stack *s, int *ops)
@@ -449,10 +141,8 @@ void refill_correct(t_stack *s, int *ops)
 void sort_100(t_stack *s)
 {
 	int chunk;
-	int idx;
 	int pivot;
 	int ops;
-	int itr;
 
 	chunk = 1;
 	ops = 0;
@@ -489,6 +179,7 @@ void sort_100(t_stack *s)
 	}
 	sort_last_chunk(s, &ops);
 	refill_correct(s, &ops);
+
 }
 
 void init_stack(t_stack *s, int size, int *ar, int *s_ar)
@@ -509,9 +200,7 @@ int main(int argc, char **argv)
 	int *s_ar;
 	ar = (int *)malloc((sizeof(int) * (argc - 1)));
 	s_ar = (int *)malloc((sizeof(int) * (argc - 1)));
-	int ops = 0;
 	t_stack stacks;
-	int op = 0;
 	init_stack(&stacks, argc - 1, ar, s_ar);
 	int i = 1;
 	int k = 0;
@@ -534,11 +223,10 @@ int main(int argc, char **argv)
 	//sort_3(&stacks);
 	//rotate(&stacks.a);
 	//printf("the index is %d\n", ind);
-	sort_100(&stacks);
+	//sort_100(&stacks);
 	//rotate(&stacks.a);
 	//printf("%d\n\n",stacks.size_of_a);
-	printf("a -----\n");
-	display(stacks.a);
+	//printf("a -----\n");
 	/*printf("\nb ----\n");
 	display(stacks.b);
 	printf("\n\n\n");
