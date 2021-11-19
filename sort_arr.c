@@ -1,45 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_values.c                                       :+:      :+:    :+:   */
+/*   sort_arr.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: itomescu <itomescu@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/17 20:50:38 by itomescu          #+#    #+#             */
-/*   Updated: 2021/11/19 08:49:19 by itomescu         ###   ########.fr       */
+/*   Created: 2021/11/17 20:51:40 by itomescu          #+#    #+#             */
+/*   Updated: 2021/11/19 08:49:31 by itomescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	get_min_val(t_node *top)
+void	sort_arr(long arr[], long low, long hi)
 {
-	int	min;
+	long	s;
+	long	e;
+	long	temp;
 
-	if (!top)
-		return (-1);
-	min = top->data;
-	while (top)
+	if (low > hi)
+		return ;
+	s = low;
+	e = hi;
+	while (s <= e)
 	{
-		if (top->data < min)
-			min = top->data;
-		top = top->next;
+		while (arr[s] < arr[s + (e - s) / 2])
+			s++;
+		while (arr[e] > arr[s + (e - s) / 2])
+			e--;
+		if (s <= e)
+		{
+			temp = arr[s];
+			arr[s] = arr[e];
+			arr[e] = temp;
+			s++;
+			e--;
+		}
+		sort_arr(arr, low, e);
+		sort_arr(arr, s, hi);
 	}
-	return (min);
-}
-
-int	get_max_val(t_node *top)
-{
-	int	max;
-
-	if (!top)
-		return (-1);
-	max = top->data;
-	while (top)
-	{
-		if (top->data > max)
-			max = top->data;
-		top = top->next;
-	}
-	return (max);
 }

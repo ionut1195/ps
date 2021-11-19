@@ -1,45 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_values.c                                       :+:      :+:    :+:   */
+/*   ops_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: itomescu <itomescu@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/17 20:50:38 by itomescu          #+#    #+#             */
-/*   Updated: 2021/11/19 08:49:19 by itomescu         ###   ########.fr       */
+/*   Created: 2021/11/17 21:45:47 by itomescu          #+#    #+#             */
+/*   Updated: 2021/11/19 08:49:26 by itomescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	get_min_val(t_node *top)
+void	ft_rb(t_stack *stack)
 {
-	int	min;
-
-	if (!top)
-		return (-1);
-	min = top->data;
-	while (top)
-	{
-		if (top->data < min)
-			min = top->data;
-		top = top->next;
-	}
-	return (min);
+	rotate(&stack->b);
+	write(1, "rb\n", 3);
 }
 
-int	get_max_val(t_node *top)
+int	error(t_stack *s)
 {
-	int	max;
-
-	if (!top)
-		return (-1);
-	max = top->data;
-	while (top)
-	{
-		if (top->data > max)
-			max = top->data;
-		top = top->next;
-	}
-	return (max);
+	write(2, "Error\n", 6);
+	free_stack(s);
+	return (-1);
 }

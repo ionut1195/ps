@@ -1,10 +1,22 @@
-#include "swap.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   atoi.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: itomescu <itomescu@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/17 20:50:48 by itomescu          #+#    #+#             */
+/*   Updated: 2021/11/19 08:49:17 by itomescu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	ft_atoi(const char *nptr)
+#include "push_swap.h"
+
+long	ft_atoi(const char *nptr)
 {
-	int	result;
-	int	sign;
-	int	itr;
+	long	result;
+	int		sign;
+	int		itr;
 
 	sign = 1;
 	itr = 0;
